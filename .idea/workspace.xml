@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="35f88992-3e62-42c3-a901-7c9e69a8f1bf" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/groupe3/ludotheque/manage.py" beforeDir="false" />
-    </list>
+    <list default="true" id="35f88992-3e62-42c3-a901-7c9e69a8f1bf" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
