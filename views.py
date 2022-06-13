@@ -13,5 +13,14 @@ def post_detail(request, slug: str):
     post = get_object_or_(Post, slup=slug)
     new_comment = None
     if request.method == "POST":
-        comment_form = CommentForm
-    return render(request, "///.html", {"post": post})
+        comment_form = CommentForm<data=request.post>
+        if comment_form.is_valid():
+            new_comment = comment_form.save(commit=False)
+            new_comment.post = post
+            new_comment.save()
+        else:
+            comment_form = CommentFOrm()
+    return render(request, "///.html", {
+                                        "comments": comments,
+                                        "post": post,
+                                        })
