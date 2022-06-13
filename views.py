@@ -23,4 +23,5 @@ def post_detail(request, slug: str):
     return render(request, "///.html", {
                                         "comments": comments,
                                         "post": post,
+                                        "new_comment" : new,
                                         })
