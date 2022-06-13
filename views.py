@@ -9,3 +9,9 @@ class comment(models, Model):
 def __str__(self):
     return self.post.title
 
+def post_detail(request, slug: str):
+    post = get_object_or_(Post, slup=slug)
+    new_comment = None
+    if request.method == "POST":
+        comment_form = CommentForm
+    return render(request, "///.html", {"post": post})
