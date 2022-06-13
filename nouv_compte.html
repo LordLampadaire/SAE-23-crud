@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+		<title> Ludothèque - Créer un compte </title>
+	</head>
+
+	<body>
+		<div class="titre">
+			<a href="index.html">
+				<h1> Super ludothèque <span>Location de Jeux</span></h1>
+			</a>
+		</div>
+
+		<div class="navbar">
+			<ul class="onglet">
+				<li><a href="stock.html"><p>Jeux en stock</p></a> </li>
+				<li><a href="php/liste.php"><p>Liste des jeux</p></a></li>
+				<li><a href="login.html"><p>Se connecter</p></a></li>
+				<li><a href="about.html"><p>About</p></a></li>
+			</ul>
+		</div>
+
+		<div class="corps">
+			<h2>Veuillez remplir toutes les informations du formulaire :</h2>
+			<p>
+				<form method="post" action="creation_compte.php"><strong>
+					Nom :<br /><input name="nom" placeholder="Nom" /> <br /><br />
+					Prenom :<br /><input name="prenom" placeholder="Prenom" /> <br /><br />
+					Age :<br /><input name="age" placeholder="Age" /> <br /><br />
+					Mail :<br /><input name="mail" placeholder="Mail" /> <br /><br />
+					Mot de passe :<br /><input type="password" name="password" placeholder="Mot de passe"/> <br /><br />
+					Validez votre mot de passe :<br /><input type="password" name="password_verif" placeholder="Mot de passe"/> <br /><br />
+					<input type="submit" value"Envoyer" name="envoyer" /><br /> <br />
+				</strong></form>
+			</p>
+		</div>
+	</body>
+</html>
