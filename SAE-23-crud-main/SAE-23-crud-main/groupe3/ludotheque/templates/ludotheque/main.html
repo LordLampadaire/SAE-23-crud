@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Test</title>
+</head>
+<body>
+{% if liste|length == 0 %}
+    <p>Il n'y a rien pour le moment mais ça fonctionne ?</p>
+{% else %}
+    {% for j in liste %}
+        <p>test : {{liste}}</p>
+    {% endfor %}
+{% endif %}
+
+
+</body>
+</html>
