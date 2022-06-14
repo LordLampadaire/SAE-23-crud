@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure--&p@6=)@((q_na!7cc-*!wb^l2qo$!(5o8inl18n*xt*r+=(ew'
+SECRET_KEY = 'django-insecure-i@5og7xf8!sgt^cdzd%mb=3&a)1v3=o4ch7nd3j*&^8vo+n7=y'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -31,8 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'ludotheque.apps.LudothequeConfig',
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -122,3 +122,4 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DATE_INPUT_FORMATS = ['%d/%m/%Y']

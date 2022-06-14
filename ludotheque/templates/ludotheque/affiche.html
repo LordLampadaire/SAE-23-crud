@@ -1,0 +1,16 @@
+{% extends 'gabarit.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> fiche {{Jeux.titre}}</title>
+</head>
+{% block content %}
+<h1> {{Jeux.titre}} </h1>
+<br>
+<p> Ce livre est écrit par {{Jeux.realisateur}} et est paru le {{jeux.date_sortie}}. </p>
+<br>
+<h3> résumé </h3>
+<br>
+<br>
+{% endblock %}

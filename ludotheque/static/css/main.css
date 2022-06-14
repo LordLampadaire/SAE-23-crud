@@ -1,0 +1,110 @@
+*, ::before, ::after {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: 'Trebuchet MS', Helvetica, sans-serif;
+    }
+
+
+body {
+    background-image: url("https://wallpaperaccess.com/full/1244577.jpg");
+    background-repeat: cover;
+}
+.ok {
+    background-color: Brown;
+    color: Red;
+    margin: 20px;
+    padding: 20px;
+    margin-bottom: 75px;
+    text-align: center;
+}
+
+p {
+    text-align: center;
+    background-color: grey;
+}
+
+form {
+    text-align: right;
+    margin-right: 10%;
+    margin-top: 10%;
+}
+
+.styled {
+    border: 0;
+    line-height: 2.5;
+    padding: 0 20px;
+    font-size: 1rem;
+    text-align: center;
+    color: #fff;
+    text-shadow: 1px 1px 1px #000;
+    border-radius: 10px;
+    background-color: rgba(220, 0, 0, 1);
+    background-image: linear-gradient(to top left,
+                                      rgba(0, 0, 0, .2),
+                                      rgba(0, 0, 0, .2) 30%,
+                                      rgba(0, 0, 0, 0));
+    box-shadow: inset 2px 2px 3px rgba(255, 255, 255, .6),
+                inset -2px -2px 3px rgba(0, 0, 0, .6);
+}
+
+.styled:hover {
+    background-color: rgba(255, 0, 0, 1);
+}
+
+.styled:active {
+    box-shadow: inset -2px -2px 3px rgba(255, 255, 255, .6),
+                inset 2px 2px 3px rgba(0, 0, 0, .6);
+}
+
+
+h1 {
+    text-align: center;
+    background-color: grey;
+}
+
+h3 {
+    text-align: center;
+    background-color: grey;
+}
+
+ul {
+  padding: 0;
+  width: 100%;
+}
+
+li {
+  display: inline;
+  font-size: 20px;
+  background-color: grey;
+}
+
+a {
+  outline: none;
+  text-decoration: none;
+  display: inline-block;
+  width: 15 %;
+  margin-right: 0.750%;
+  text-align: center;
+  line-height: 3;
+  color: black;
+  font-size: 15px;
+  padding: 5px;
+}
+
+li:last-child a {
+  margin-right: 0;
+}
+
+a:link, a:visited, a:focus {
+  background: red;
+}
+
+a:hover {
+  background: brown;
+}
+
+a:active {
+  background: red;
+  color: white;
+}
