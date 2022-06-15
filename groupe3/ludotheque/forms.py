@@ -61,6 +61,11 @@ class JoueurForm(ModelForm):
         }
 
 
-"""class JeuxhasEditeur(ModelForm):
+class JeuxhasEditeur(ModelForm):
     class Meta :
-        model = models.JeuxhasEditeur"""
+        model = models.JeuxhasEditeur
+        fields = {'jeu', 'editeur'}
+        labels = {
+            'jeu': _('Jeu'),
+            'editeur': _('Editeur'),
+        }

@@ -8,6 +8,15 @@
 
 # -*- coding: utf-8 -*-
 from django.db import models
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
+
+def validate_even(value):
+    if not (0<=value<=10):
+        raise ValidationError(
+            _('%(value)s n\'est pas compris entre 0 et 10 (bornes incluses)'),
+            params={'value': value},
+        )
 
 
 TYPE_PROFIL = (
@@ -54,14 +63,14 @@ class Jeux(models.Model):
         return f"{self.titre}"
 
     def dico(self):
-        return {"titre": self.titre, "date_sortie": self.date_sortie, "photo": self.photo, "categorie": self.categorie}
+        return {"titre": self.titre, "date_sortie": self.date_sortie, "photo": self.photo, "categorie": self.categorie, "editeur": self.editeur}
 
 
 class Joueur(models.Model):
     # idjoueur = models.AutoField(db_column='idJoueur', primary_key=True)  # Field name made lowercase.
     nom = models.CharField(max_length=45)
     prenom = models.CharField(max_length=45)
-    mail = models.CharField(max_length=50)
+    mail = models.EmailField(help_text='A valid email address, please.')
     mdp = models.CharField(max_length=45)
     type = models.CharField(max_length=15, verbose_name="Type", choices=TYPE_PROFIL, default='PARTICULIER')
 
@@ -80,7 +89,7 @@ class Commentaire(models.Model):
     # idcommentaire = models.AutoField(db_column='idCommentaire', primary_key=True)  # Field name made lowercase.
     jeu = models.ForeignKey(Jeux, on_delete=models.CASCADE)
     joueur = models.ForeignKey(Joueur, on_delete=models.CASCADE)
-    note = models.IntegerField()
+    note = models.PositiveIntegerField(default=0, validators=[validate_even])
     commentaire = models.TextField()
     date = models.DateField()
     #jeux_idjeux = models.ForeignKey('Jeux', models.DO_NOTHING, db_column='Jeux_idJeux')  # Field name made lowercase.

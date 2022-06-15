@@ -3,6 +3,8 @@ from django.http import HttpResponseRedirect
 from .forms import JeuxForm, JoueurForm, EditeurForm, CategorieForm, CommentaireForm
 from . import models
 
+
+
 # Create your views here.
 def index(request):
     catego = list(models.Categorie.objects.all())
