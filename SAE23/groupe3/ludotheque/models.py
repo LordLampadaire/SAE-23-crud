@@ -41,10 +41,10 @@ class Jeux(models.Model):
     titre = models.CharField(max_length=45)
     date_sortie = models.CharField(max_length=45)
     photo = models.URLField(blank=True)
-    categorie = models.ForeignKey(Categorie, on_delete=models.CASCADE, db_column='Categorie_idCategorie', default=1)  # Field name made lowercase.
+    #categorie = models.ForeignKey(Categorie, on_delete=models.CASCADE, db_column='Categorie_idCategorie', default=1)  # Field name made lowercase.
 
     def __str__(self):
-        return f"{self.titre} est sorti le {self.date_sortie} fait partie de la categorie {self.categorie}"
+        return f"{self.titre} est sorti le {self.date_sortie} fait partie de la categorie"
 
     def dico(self):
         return {"titre": self.titre, "date_sortie": self.date_sortie, "photo": self.photo}
