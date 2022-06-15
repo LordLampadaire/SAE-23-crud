@@ -14,7 +14,7 @@ class Editeur(models.Model):
     # idediteur = models.AutoField(db_column='idEditeur', primary_key=True)  # Field name made lowercase.
     nom = models.CharField(max_length=45)
     date = models.IntegerField(blank=True, null=True)
-    logo = models.TextField(blank=True, null=True)
+    logo = models.URLField(blank=True)
 
     def __str__(self):
         return f"{self.nom} a ete cree le {self.date}"
@@ -40,7 +40,7 @@ class Jeux(models.Model):
     # idjeux = models.AutoField(db_column='idJeux', primary_key=True)  # Field name made lowercase.
     titre = models.CharField(max_length=45)
     date_sortie = models.CharField(max_length=45)
-    photo = models.TextField()
+    photo = models.URLField(blank=True)
     categorie = models.ForeignKey(Categorie, on_delete=models.CASCADE, db_column='Categorie_idCategorie', default=1)  # Field name made lowercase.
 
     def __str__(self):
@@ -66,7 +66,7 @@ class Joueur(models.Model):
 
 class Commentaire(models.Model):
     # idcommentaire = models.AutoField(db_column='idCommentaire', primary_key=True)  # Field name made lowercase.
-    jeux = models.ForeignKey(Jeux, on_delete=models.CASCADE)
+    jeu = models.ForeignKey(Jeux, on_delete=models.CASCADE)
     joueur = models.ForeignKey(Joueur, on_delete=models.CASCADE)
     note = models.IntegerField()
     commentaire = models.TextField()
@@ -74,7 +74,7 @@ class Commentaire(models.Model):
     #jeux_idjeux = models.ForeignKey('Jeux', models.DO_NOTHING, db_column='Jeux_idJeux')  # Field name made lowercase.
 
     def __str__(self):
-        return f"Le {self.date}, {self.joueur} a commente {self.jeux} en expliquant que {self.commentaire}"
+        return f"Le {self.date}, {self.joueur} a commente {self.jeu} en expliquant que {self.commentaire}"
 
     def dico(self):
         return {"note": self.note, "commentaire": self.commentaire, "date": self.date}
@@ -82,6 +82,6 @@ class Commentaire(models.Model):
 
 
 class JeuxhasEditeur(models.Model):
-    jeux = models.ForeignKey(Jeux, on_delete=models.CASCADE)
+    jeu = models.ForeignKey(Jeux, on_delete=models.CASCADE)
     editeur = models.ForeignKey(Editeur, on_delete=models.CASCADE)
 
