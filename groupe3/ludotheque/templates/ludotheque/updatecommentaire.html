@@ -1,9 +1,0 @@
-<article class="formulaire">
-    <h2>Commentaire {{commentaire.id}} :</h2>
-    <form method="post" action="/ludotheque/traitementupdatecommentaire/{{id}}">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="envoyer les données">
-        <a href="/ludotheque/main/"><button>annuler</button></a>
-    </form>
-</article>

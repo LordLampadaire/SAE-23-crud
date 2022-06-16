@@ -1,7 +1,0 @@
-<article class="formulaire">
-    <h2>Nouveau joueur :</h2>
-    <form method="post" action="/ludotheque/traitementjoueur">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="envoyer les données">
-</article>
