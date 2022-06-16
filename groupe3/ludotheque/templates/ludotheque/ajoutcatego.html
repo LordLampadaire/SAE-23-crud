@@ -1,0 +1,7 @@
+<article class="formulaire">
+    <h2>Nouvelle catégorie :</h2>
+    <form method="post" action="/ludotheque/traitementcatego">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="envoyer les données">
+</article>
