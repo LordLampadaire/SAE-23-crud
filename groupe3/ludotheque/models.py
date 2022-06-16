@@ -76,7 +76,7 @@ class Joueur(models.Model):
 
 
     def __str__(self):
-        return f"{self.nom} {self.prenom} a comme adresse mail {self.mail}"
+        return f"{self.nom} {self.prenom}"
 
     def dico(self):
         return {"nom": self.nom, "prenom": self.prenom, "mail": self.mail, "mdp": self.mdp, "type": self.type}
@@ -95,7 +95,7 @@ class Commentaire(models.Model):
     #jeux_idjeux = models.ForeignKey('Jeux', models.DO_NOTHING, db_column='Jeux_idJeux')  # Field name made lowercase.
 
     def __str__(self):
-        return f"Le {self.date}, {self.joueur} a commente {self.jeu} en expliquant que {self.commentaire}"
+        return f"{self.commentaire}"
 
     def dico(self):
         return {"note": self.note, "commentaire": self.commentaire, "date": self.date}
