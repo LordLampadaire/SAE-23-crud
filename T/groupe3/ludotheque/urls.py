@@ -4,8 +4,11 @@ from . import views
 
 
 urlpatterns = [
+    path('', views.index),
     path('main/', views.index),
     path('mainjeu/', views.indexjeu),
+    path('mainediteur/', views.indexediteur),
+    path('mainjoueur/', views.indexjoueur),
 
     path("ajoutjeu/", views.ajoutjeux),
     path("traitementjeu", views.traitementjeu),

@@ -21,7 +21,22 @@ def indexjeu(request):
     editeur = list(models.Editeur.objects.all())
     commentaire = list(models.Commentaire.objects.all())
     return render(request, 'ludotheque/mainjeu.html', {"catego": catego, "jeu": jeu, "joueur": joueur, 'editeur': editeur, 'commentaire': commentaire})
-#editeur
+
+def indexjoueur(request):
+    catego = list(models.Categorie.objects.all())
+    jeu = list(models.Jeux.objects.all())
+    joueur = list(models.Joueur.objects.all())
+    editeur = list(models.Editeur.objects.all())
+    commentaire = list(models.Commentaire.objects.all())
+    return render(request, 'ludotheque/mainjoueur.html', {"catego": catego, "jeu": jeu, "joueur": joueur, 'editeur': editeur, 'commentaire': commentaire})
+
+def indexediteur(request):
+    catego = list(models.Categorie.objects.all())
+    jeu = list(models.Jeux.objects.all())
+    joueur = list(models.Joueur.objects.all())
+    editeur = list(models.Editeur.objects.all())
+    commentaire = list(models.Commentaire.objects.all())
+    return render(request, 'ludotheque/mainediteur.html', {"catego": catego, "jeu": jeu, "joueur": joueur, 'editeur': editeur, 'commentaire': commentaire})
 
 def ajoutediteur(request):
     if request.method == "POST":
@@ -40,7 +55,7 @@ def traitementediteur(request):
     lform = EditeurForm(request.POST)
     if lform.is_valid():
         editeur = lform.save()
-        return HttpResponseRedirect("/ludotheque/main")
+        return HttpResponseRedirect("/ludotheque/mainediteur")
     else:
         return render(request, "ludotheque/ajoutediteur.html", {"form" : lform})
 
@@ -67,7 +82,7 @@ def traitementupdateediteur(request, id):
         editeur = lform.save(commit=False)
         editeur.id = id
         editeur.save()
-        return HttpResponseRedirect("/ludotheque/main")
+        return HttpResponseRedirect("/ludotheque/mainediteur")
     else:
         return render(request, "ludotheque/updateediteur.html", {"form": lform, "id": id})
 
@@ -99,7 +114,7 @@ def traitementjeu(request):
     lform = JeuxForm(request.POST)
     if lform.is_valid():
         jeu = lform.save()
-        return HttpResponseRedirect("/ludotheque/main")
+        return HttpResponseRedirect("/ludotheque/mainjeu")
     else:
         return render(request, "ludotheque/ajoutjeu.html", {"form" : lform})
 
@@ -113,13 +128,17 @@ def affichejeu(request, id):
     jeu = models.Jeux.objects.get(pk=id)
     commentaire = models.Commentaire.objects.all()
     liste, compt = 0 , 0
-    for c in commentaire:
-        if jeu == c.jeu:
-            liste += c.note
-            compt += 1
-    moyenne = liste / compt
 
-    return render(request, "ludotheque/affichejeu.html", {"jeu" : jeu, "commentaire" : commentaire, "moyenne" : moyenne})
+    for c in commentaire:
+            if c.jeu == jeu:
+                liste += c.note
+                compt += 1
+    if compt == 0:
+        moyenne = 0
+    else:
+        moyenne = liste / compt
+    return render(request, "ludotheque/affichejeu.html",
+                      {"jeu": jeu, "commentaire": commentaire, "moyenne" : moyenne})
 
 
 def updatejeu(request, id):
@@ -134,7 +153,7 @@ def traitementupdatejeu(request, id):
         jeu = lform.save(commit=False)
         jeu.id = id
         jeu.save()
-        return HttpResponseRedirect("/ludotheque/main")
+        return HttpResponseRedirect("/ludotheque/mainjeu")
     else:
         return render(request, "ludotheque/updatejeu.html", {"form": lform, "id": id})
 
@@ -230,7 +249,7 @@ def traitementjoueur(request):
     lform = JoueurForm(request.POST)
     if lform.is_valid():
         joueur = lform.save()
-        return HttpResponseRedirect("/ludotheque/main")
+        return HttpResponseRedirect("/ludotheque/mainjoueur")
     else:
         return render(request, "ludotheque/ajoutjoueur.html", {"form" : lform})
 
@@ -257,7 +276,7 @@ def traitementupdatejoueur(request, id):
         joueur = lform.save(commit=False)
         joueur.id = id
         joueur.save()
-        return HttpResponseRedirect("/ludotheque/main")
+        return HttpResponseRedirect("/ludotheque/mainjoueur")
     else:
         return render(request, "ludotheque/updatejoueur.html", {"form": lform, "id": id})
 

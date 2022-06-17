@@ -24,7 +24,7 @@ header {
     padding: 0px;
     text-align: center;
     font-size: 22px;
-    background-color: aqua;
+    background-color: brown;
 
 }
 
@@ -33,7 +33,7 @@ main {
 }
 
 nav {
-    background-color: red;
+    background-color: brown;
 }
 .liste-sidenav {
     list-style-type: none;
@@ -58,11 +58,15 @@ nav {
 
 h1 {
     margin-bottom: 15px;
+    border-bottom: solid 1px #333;
+    text-align: center;
+    padding: 10px;
+    color: #333;
 }
 
 aside {
     padding: 20px;
-    background-color: azure;
+    background-color: brown;
     font-size: 22px;
     color: blue;
 }
@@ -79,7 +83,7 @@ footer {
     padding: 30px;
     text-align: center;
     font-size: 20px;
-    background-color: brown;
+    background-color: #333;
     color: white;
 }
 
@@ -212,12 +216,18 @@ h2 {
     background-color: #333;
     padding: 10px;
     color: white;
+    border-radius: 10px;
 
 }
 
 .description {
     text-align: center;
     font-size: 25px;
+}
+.descriptionne {
+    text-align: left;
+    font-size: 20px;
+    margin-top: 50px;
 }
 
 .lien {
@@ -332,4 +342,38 @@ form {
     border-radius: 10px;
     color: white;
     background-color: #333;
+}
+
+.commentaire {
+    background-color: white;
+}
+
+.commentaire p {
+    background-color: white;
+    color: #333;
+    border-bottom-style: solid;
+    padding: 10px;
+}
+
+.moyenne {
+    color: white;
+    background-color: red;
+    padding: 10px;
+    margin-top: 100px;
+}
+
+.image {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 25px;
+}
+
+.date {
+    margin: 10px;
+}
+
+.testeuh{
+    font-weight: bold;
 }

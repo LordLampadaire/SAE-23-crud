@@ -52,7 +52,7 @@ class Categorie(models.Model):
 
 class Jeux(models.Model):
     # idjeux = models.AutoField(db_column='idJeux', primary_key=True)  # Field name made lowercase.
-    editeur = models.ForeignKey(Editeur, on_delete=models.CASCADE, db_column='Jeux_idEditeur', default=None)
+    editeur = models.ForeignKey(Editeur, on_delete=models.CASCADE, db_column='Jeux_idEditeur', default=1)
     categorie = models.ForeignKey(Categorie, on_delete=models.CASCADE, db_column='Categorie_idCategorie',
                                   default=1)  # Field name made lowercase.
     titre = models.CharField(max_length=45)
