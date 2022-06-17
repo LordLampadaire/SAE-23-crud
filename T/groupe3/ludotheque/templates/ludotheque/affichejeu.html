@@ -1,0 +1,34 @@
+{% extends 'gabarit.html' %}
+{% block content %}
+<head>
+{% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/ajout.css' %}">
+</head>
+<h2>{{jeu.titre}}</h2>
+<h4 class="date"> Le jeu est sorti en : {{jeu.date_sortie}} </h4>
+<article class="article">
+    <p class="image">
+        {% if jeu.photo != "" %}
+         <img class="image" src="{{jeu.photo}}" height="400px" width="400px">
+        {% endif %}
+    </p>
+    <p class ="moyenne"> Note Moyenne : {{moyenne}}/10 {{id}}</p>
+
+    <div class="commentaire">
+        <br>
+        <h3> Commentaires </h3>
+        {% if commentaire != "" %}
+        {% for c in commentaire %}
+        {% if c.jeu == jeu %}
+        <p> <b>{{c.joueur}}</b> à écrit : {{c.commentaire}} | <b> Note : {{c.note}}/10</b> </p>
+        {% endif %}
+        {% endfor %}
+        {% else %}
+        <p> Il n'y a pas de commentaire pour le moment </p>
+        {% endif %}
+    </div>
+
+
+
+</article>
+{% endblock %}

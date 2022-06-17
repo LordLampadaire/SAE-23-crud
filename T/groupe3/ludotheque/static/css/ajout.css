@@ -1,0 +1,21 @@
+.commentaire {
+    background-color: white;
+}
+
+
+.moyenne {
+    color: white;
+    background-color: red;
+    padding: 10px;
+}
+
+.image {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.date {
+    margin: 10px;
+}
