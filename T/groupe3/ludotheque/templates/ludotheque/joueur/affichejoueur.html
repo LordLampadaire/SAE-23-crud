@@ -1,0 +1,20 @@
+{% extends 'gabarit.html' %}
+{% block content %}
+<h2>{{joueur.nom}} {{joueur.prenom}}</h2>
+<article class="article">
+    <h3>Ses informations</h3>
+    <p>Identifiant : id{{joueur.id}}</p>
+    <p>Type de compte : {{joueur.type}}</p>
+    <p>Adresse mail : {{joueur.mail}}</p>
+    <h3>Ses commentaires</h3>
+    {% for c in commentaire %}
+    {% if c.joueur == joueur %}
+    <p>{{c.jeu}} : {{c.commentaire}} | Note : {{c.note}}/10</p>
+    {% endif %}
+    {% endfor %}
+    <h3>Liste de jeux conseillés</h3>
+    {% for j in liste %}
+        <p>{{j}} <a href="/ludotheque/jeu/affichejeu/{{j.id}}">voir le jeu</a></p>
+    {% endfor %}
+</article>
+{% endblock %}

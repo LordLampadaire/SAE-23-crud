@@ -76,7 +76,7 @@ class Joueur(models.Model):
 
 
     def __str__(self):
-        return f"{self.nom} {self.prenom}"
+        return f"{self.nom} {self.prenom} ({self.type})"
 
     def dico(self):
         return {"nom": self.nom, "prenom": self.prenom, "mail": self.mail, "mdp": self.mdp, "type": self.type}

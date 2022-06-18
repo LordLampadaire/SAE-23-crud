@@ -1,0 +1,41 @@
+{% extends 'gabarit.html' %}
+{% block content %}
+<head>
+{% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/ajout.css' %}">
+</head>
+<h2>{{jeu.titre}}</h2>
+<h4 class="date"> Le jeu est sorti le {{jeu.date_sortie}} </h4>
+<article class="article">
+    <p class="image">
+        {% if jeu.photo != "" %}
+         <img class="image" src="{{jeu.photo}}" height="400px" width="400px">
+        {% endif %}
+    </p>
+    <p class ="moyenne"> Moyenne des notes des joueurs professionnels : {{pro}}/10  |   Moyenne des notes des joueurs particuliers : {{part}}/10</p>
+
+    <div class="commentaire">
+        <br>
+        <h3> Commentaires </h3>
+        {% if taille != 0 %}
+        <h5>Les plus pertinents :</h5>
+        <p><b>{{com1.joueur}}</b> a écrit : {{com1.commentaire}} | <b> Note : {{com1.note}}/10</b> </p>
+        {% if taille > 1 %}
+        <p><b>{{com2.joueur}}</b> a écrit : {{com2.commentaire}} | <b> Note : {{com2.note}}/10</b> </p>
+        {% endif %}
+        <h5>Tous les commentaires :</h5>
+        {% for c in commentaire %}
+        {% if c.jeu == jeu %}
+        <p> <b>{{c.joueur}}</b> à écrit : {{c.commentaire}} | <b> Note : {{c.note}}/10</b> </p>
+        {% endif %}
+        {% endfor %}
+        {% else %}
+        <p> Il n'y a pas de commentaire pour le moment </p>
+        {% endif %}
+        <a class="lien" href="/ludotheque/commentaire/ajoutcommentaire">Ajouter un commentaire</a>
+    </div>
+
+
+
+</article>
+{% endblock %}
