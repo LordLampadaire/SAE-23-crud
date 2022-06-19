@@ -2,13 +2,16 @@
 {% block content %}
 <h2>{{categorie.nom}}</h2>
 <article class="article">
-    <p class="descriptionne"> {{categorie.description}}</p>
+    <h3 class="moyenne">Description</h3>
+    <p class="commentaire"> {{categorie.description}}</p>
 </article>
 <article class="descriptionne">
     <h3>Les jeux entrant dans cette catégorie :</h3>
     {% for j in jeu %}
     {% if j.categorie == categorie %}
-    <p>{{j}} <a href="/ludotheque/jeu/affichejeu/{{j.id}}">voir le jeu</a></p>
+    <ul>
+        <li><a href="/ludotheque/jeu/affichejeu/{{j.id}}">{{j}}</a></li>
+    </ul>
     {% endif %}
     {% endfor %}
 </article>

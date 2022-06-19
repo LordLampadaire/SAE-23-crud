@@ -317,8 +317,6 @@ def deletejoueur(request, id):
     return HttpResponseRedirect("/ludotheque/main")
 
 
-
-
 #commentaire
 
 def ajoutcom(request):
@@ -375,14 +373,28 @@ def deletecommentaire(request, id):
 
 
 ## BROUILLON
-#affichage meilleur et pire commentaire
-"""d = dict()
-    for c in commentaire:
-        taille+=1
-        k = c.id
-        d[k] = c.note, c.jeu, c.joueur, c.commentaire
-    df = list(sorted(d.items(), key=operator.itemgetter(0)))
-    if taille >= 1:
-        com1 = df[0]
-        if taille >1:
-            com2 = df[-1]"""
+"""def fiche_de_vols(request, id):
+    aeroport = models.Aeroport.objects.get(idaeroport=id)
+    vols = models.Vol.objects.filter(idaeroportdepart = id)
+    buffer = io.BytesIO()
+
+    p = canvas.Canvas(buffer, pagesize=A4)
+    p.drawString(cm, 28cm, f"Vols partant de l'aéroport {aeroport}")
+    data = [["Avion", "Pilote", "Vers", "Départ", "Arrivée"]]
+    for vol in vols:
+        data.append([
+            vol.idavion.idmodele.nommodele, 
+            vol.pilotevol,
+            vol.idaeroportarrivee.nomaeroport,
+            vol.datedepartvol,
+            vol.datearriveevol
+            ])
+    print(data)
+    t=Table(data)
+    t.wrapOn(p, 25cm,100)
+    t.drawOn(p, cm, 25*cm)
+    p.showPage()
+    p.save()
+
+    buffer.seek(0)
+    return FileResponse(buffer, as_attachment=True, filename=f"fiche-vol-{aeroport.nomaeroport}.pdf")"""
