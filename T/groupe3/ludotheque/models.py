@@ -52,7 +52,7 @@ class Categorie(models.Model):
 
 class Jeux(models.Model):
     # idjeux = models.AutoField(db_column='idJeux', primary_key=True)  # Field name made lowercase.
-    editeur = models.ForeignKey(Editeur, on_delete=models.CASCADE, db_column='Jeux_idEditeur', default=None)
+    editeur = models.ForeignKey(Editeur, on_delete=models.CASCADE, db_column='Jeux_idEditeur', default=1)
     categorie = models.ForeignKey(Categorie, on_delete=models.CASCADE, db_column='Categorie_idCategorie',
                                   default=1)  # Field name made lowercase.
     titre = models.CharField(max_length=45)
@@ -67,7 +67,7 @@ class Jeux(models.Model):
 
 
 class Joueur(models.Model):
-    # idjoueur = models.AutoField(db_column='idJoueur', primary_key=True)  # Field name made lowercase.
+   # idjoueur = models.AutoField(db_column='idJoueur', primary_key=True)  # Field name made lowercase.
     nom = models.CharField(max_length=45)
     prenom = models.CharField(max_length=45)
     mail = models.EmailField(help_text='A valid email address, please.')
@@ -86,7 +86,7 @@ class Joueur(models.Model):
         return dict(cls.TYPE_PROFIL).get(cls.type)
 
 class Commentaire(models.Model):
-    # idcommentaire = models.AutoField(db_column='idCommentaire', primary_key=True)  # Field name made lowercase.
+    #idcommentaire = models.AutoField(db_column='idCommentaire', primary_key=True)  # Field name made lowercase.
     jeu = models.ForeignKey(Jeux, on_delete=models.CASCADE)
     joueur = models.ForeignKey(Joueur, on_delete=models.CASCADE)
     note = models.PositiveIntegerField(default=0, validators=[validate_even])
