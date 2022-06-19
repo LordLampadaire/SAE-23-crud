@@ -2,6 +2,12 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from .forms import JeuxForm, JoueurForm, EditeurForm, CategorieForm, CommentaireForm
 from . import models
+import io
+from django.http import FileResponse
+from reportlab.pdfgen import canvas
+from reportlab.lib.units import cm
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
 
 
 
@@ -21,28 +27,43 @@ def indexjeu(request):
     editeur = list(models.Editeur.objects.all())
     commentaire = list(models.Commentaire.objects.all())
     return render(request, 'ludotheque/mainjeu.html', {"catego": catego, "jeu": jeu, "joueur": joueur, 'editeur': editeur, 'commentaire': commentaire})
-#editeur
+
+def indexjoueur(request):
+    catego = list(models.Categorie.objects.all())
+    jeu = list(models.Jeux.objects.all())
+    joueur = list(models.Joueur.objects.all())
+    editeur = list(models.Editeur.objects.all())
+    commentaire = list(models.Commentaire.objects.all())
+    return render(request, 'ludotheque/mainjoueur.html', {"catego": catego, "jeu": jeu, "joueur": joueur, 'editeur': editeur, 'commentaire': commentaire})
+
+def indexediteur(request):
+    catego = list(models.Categorie.objects.all())
+    jeu = list(models.Jeux.objects.all())
+    joueur = list(models.Joueur.objects.all())
+    editeur = list(models.Editeur.objects.all())
+    commentaire = list(models.Commentaire.objects.all())
+    return render(request, 'ludotheque/mainediteur.html', {"catego": catego, "jeu": jeu, "joueur": joueur, 'editeur': editeur, 'commentaire': commentaire})
 
 def ajoutediteur(request):
     if request.method == "POST":
         form = (request)
         if form.is_valid():
             editeur = form.save()
-            return render(request, "ludotheque/editeur/afficheediteur.html", {"editeur" : editeur})
+            return render(request, "ludotheque/afficheediteur.html", {"editeur" : editeur})
         else:
-            return render(request, "ludotheque/editeur/ajoutediteur.html", {"form" : form})
+            return render(request, "ludotheque/ajoutediteur.html", {"form" : form})
     else:
         form = EditeurForm()
-        return render(request, "ludotheque/editeur/ajoutediteur.html", {"form" : form})
+        return render(request, "ludotheque/ajoutediteur.html", {"form" : form})
 
 
 def traitementediteur(request):
     lform = EditeurForm(request.POST)
     if lform.is_valid():
         editeur = lform.save()
-        return HttpResponseRedirect("/ludotheque/main")
+        return HttpResponseRedirect("/ludotheque/mainediteur")
     else:
-        return render(request, "ludotheque/editeur/ajoutediteur.html", {"form" : lform})
+        return render(request, "ludotheque/ajoutediteur.html", {"form" : lform})
 
 
 def allediteur(request):
@@ -52,13 +73,13 @@ def allediteur(request):
 
 def afficheediteur(request, id):
     editeur = models.Editeur.objects.get(pk=id)
-    return render(request, "ludotheque/editeur/afficheediteur.html", {"editeur" : editeur})
+    return render(request, "ludotheque/afficheediteur.html", {"editeur" : editeur})
 
 
 def updateediteur(request, id):
     editeur = models.Editeur.objects.get(pk=id)
     lform = EditeurForm(editeur.dico())
-    return render(request, "ludotheque/editeur/updateediteur.html", {"form": lform, "id" : id})
+    return render(request, "ludotheque/updateediteur.html", {"form": lform, "id" : id})
 
 
 def traitementupdateediteur(request, id):
@@ -67,9 +88,9 @@ def traitementupdateediteur(request, id):
         editeur = lform.save(commit=False)
         editeur.id = id
         editeur.save()
-        return HttpResponseRedirect("/ludotheque/main")
+        return HttpResponseRedirect("/ludotheque/mainediteur")
     else:
-        return render(request, "ludotheque/editeur/updateediteur.html", {"form": lform, "id": id})
+        return render(request, "ludotheque/updateediteur.html", {"form": lform, "id": id})
 
 
 def deleteediteur(request, id):
@@ -87,21 +108,21 @@ def ajoutjeux(request):
         form = (request)
         if form.is_valid():
             jeu = form.save()
-            return render(request, "ludotheque/jeu/affichejeu.html", {"jeu" : jeu})
+            return render(request, "ludotheque/affichejeu.html", {"jeu" : jeu})
         else:
-            return render(request, "ludotheque/jeu/ajoutjeu.html", {"form" : form})
+            return render(request, "ludotheque/ajoutjeu.html", {"form" : form})
     else:
         form = JeuxForm()
-        return render(request, "ludotheque/jeu/ajoutjeu.html", {"form" : form})
+        return render(request, "ludotheque/ajoutjeu.html", {"form" : form})
 
 
 def traitementjeu(request):
     lform = JeuxForm(request.POST)
     if lform.is_valid():
         jeu = lform.save()
-        return HttpResponseRedirect("/ludotheque/main")
+        return HttpResponseRedirect("/ludotheque/mainjeu")
     else:
-        return render(request, "ludotheque/jeu/ajoutjeu.html", {"form" : lform})
+        return render(request, "ludotheque/ajoutjeu.html", {"form" : lform})
 
 
 def alljeu(request):
@@ -113,19 +134,23 @@ def affichejeu(request, id):
     jeu = models.Jeux.objects.get(pk=id)
     commentaire = models.Commentaire.objects.all()
     liste, compt = 0 , 0
-    for c in commentaire:
-        if jeu == c.jeu:
-            liste += c.note
-            compt += 1
-    moyenne = liste / compt
 
-    return render(request, "ludotheque/jeu/affichejeu.html", {"jeu" : jeu, "commentaire" : commentaire, "moyenne" : moyenne})
+    for c in commentaire:
+            if c.jeu == jeu:
+                liste += c.note
+                compt += 1
+    if compt == 0:
+        moyenne = 0
+    else:
+        moyenne = liste / compt
+    return render(request, "ludotheque/affichejeu.html",
+                      {"jeu": jeu, "commentaire": commentaire, "moyenne" : moyenne, "id":id })
 
 
 def updatejeu(request, id):
     jeu = models.Jeux.objects.get(pk=id)
     lform = JeuxForm(jeu.dico())
-    return render(request, "ludotheque/jeu/updatejeu.html", {"form": lform, "id" : id})
+    return render(request, "ludotheque/updatejeu.html", {"form": lform, "id" : id})
 
 
 def traitementupdatejeu(request, id):
@@ -134,9 +159,9 @@ def traitementupdatejeu(request, id):
         jeu = lform.save(commit=False)
         jeu.id = id
         jeu.save()
-        return HttpResponseRedirect("/ludotheque/main")
+        return HttpResponseRedirect("/ludotheque/mainjeu")
     else:
-        return render(request, "ludotheque/jeu/updatejeu.html", {"form": lform, "id": id})
+        return render(request, "ludotheque/updatejeu.html", {"form": lform, "id": id})
 
 
 def deletejeu(request, id):
@@ -160,12 +185,12 @@ def ajoutcategorie(request):
         form = (request)
         if form.is_valid():
             catego = form.save()
-            return render(request, "ludotheque/categorie/affichecatego.html", {"catego" : catego})
+            return render(request, "ludotheque/affichecatego.html", {"catego" : catego})
         else:
-            return render(request, "ludotheque/categorie/ajoutcatego.html", {"form" : form})
+            return render(request, "ludotheque/ajoutcatego.html", {"form" : form})
     else:
         form = CategorieForm()
-        return render(request, "ludotheque/categorie/ajoutcatego.html", {"form" : form})
+        return render(request, "ludotheque/ajoutcatego.html", {"form" : form})
 
 
 def traitementcategorie(request):
@@ -174,7 +199,7 @@ def traitementcategorie(request):
         catego = lform.save()
         return HttpResponseRedirect("/ludotheque/main")
     else:
-        return render(request, "ludotheque/categorie/ajoutcatego.html", {"form" : lform})
+        return render(request, "ludotheque/ajoutcatego.html", {"form" : lform})
 
 
 def allcategorie(request):
@@ -185,13 +210,13 @@ def allcategorie(request):
 def affichecategorie(request, id):
     catego = models.Categorie.objects.get(pk=id)
     #liste = models.Disque.objects.all()
-    return render(request, "ludotheque/categorie/affichecatego.html", {"categorie" : catego})
+    return render(request, "ludotheque/affichecatego.html", {"categorie" : catego})
 
 
 def updatecategorie(request, id):
     catego = models.Categorie.objects.get(pk=id)
     lform = CategorieForm(catego.dico())
-    return render(request, "ludotheque/categorie/updatecatego.html", {"form": lform, "id" : id})
+    return render(request, "ludotheque/updatecatego.html", {"form": lform, "id" : id})
 
 
 def traitementupdatecategorie(request, id):
@@ -202,7 +227,7 @@ def traitementupdatecategorie(request, id):
         catego.save()
         return HttpResponseRedirect("/ludotheque/main")
     else:
-        return render(request, "ludotheque/categorie/updatecatego.html", {"form": lform, "id": id})
+        return render(request, "ludotheque/updatecatego.html", {"form": lform, "id": id})
 
 
 def deletecategorie(request, id):
@@ -218,21 +243,21 @@ def ajoutjoueur(request):
         form = (request)
         if form.is_valid():
             joueur = form.save()
-            return render(request, "ludotheque/joueur/affichejoueur.html", {"joueur" : joueur})
+            return render(request, "ludotheque/affichejoueur.html", {"joueur" : joueur})
         else:
-            return render(request, "ludotheque/joueur/ajoutjoueur.html", {"form" : form})
+            return render(request, "ludotheque/ajoutjoueur.html", {"form" : form})
     else:
         form = JoueurForm()
-        return render(request, "ludotheque/joueur/ajoutjoueur.html", {"form" : form})
+        return render(request, "ludotheque/ajoutjoueur.html", {"form" : form})
 
 
 def traitementjoueur(request):
     lform = JoueurForm(request.POST)
     if lform.is_valid():
         joueur = lform.save()
-        return HttpResponseRedirect("/ludotheque/main")
+        return HttpResponseRedirect("/ludotheque/mainjoueur")
     else:
-        return render(request, "ludotheque/joueur/ajoutjoueur.html", {"form" : lform})
+        return render(request, "ludotheque/ajoutjoueur.html", {"form" : lform})
 
 
 def alljoueur(request):
@@ -242,13 +267,13 @@ def alljoueur(request):
 
 def affichejoueur(request, id):
     joueur = models.Joueur.objects.get(pk=id)
-    return render(request, "ludotheque/joueur/affichejoueur.html", {"joueur" : joueur})
+    return render(request, "ludotheque/affichejoueur.html", {"joueur" : joueur})
 
 
 def updatejoueur(request, id):
     joueur = models.Joueur.objects.get(pk=id)
     lform = JoueurForm(joueur.dico())
-    return render(request, "ludotheque/joueur/updatejoueur.html", {"form": lform, "id" : id})
+    return render(request, "ludotheque/updatejoueur.html", {"form": lform, "id" : id})
 
 
 def traitementupdatejoueur(request, id):
@@ -257,9 +282,9 @@ def traitementupdatejoueur(request, id):
         joueur = lform.save(commit=False)
         joueur.id = id
         joueur.save()
-        return HttpResponseRedirect("/ludotheque/main")
+        return HttpResponseRedirect("/ludotheque/mainjoueur")
     else:
-        return render(request, "ludotheque/joueur/updatejoueur.html", {"form": lform, "id": id})
+        return render(request, "ludotheque/updatejoueur.html", {"form": lform, "id": id})
 
 
 def deletejoueur(request, id):
@@ -277,12 +302,12 @@ def ajoutcom(request):
         form = (request)
         if form.is_valid():
             commentaire = form.save()
-            return render(request, "ludotheque/commentaire/affichecommentaire.html", {"commentaire" : commentaire})
+            return render(request, "ludotheque/affichecommentaire.html", {"commentaire" : commentaire})
         else:
-            return render(request, "ludotheque/commentaire/ajoutcommentaire.html", {"form" : form})
+            return render(request, "ludotheque/ajoutcommentaire.html", {"form" : form})
     else:
         form = CommentaireForm()
-        return render(request, "ludotheque/commentaire/ajoutcommentaire.html", {"form" : form})
+        return render(request, "ludotheque/ajoutcommentaire.html", {"form" : form})
 
 
 def traitementcom(request):
@@ -291,7 +316,7 @@ def traitementcom(request):
         commentaire = lform.save()
         return HttpResponseRedirect("/ludotheque/main")
     else:
-        return render(request, "ludotheque/commentaire/ajoutcommentaire.html", {"form" : lform})
+        return render(request, "ludotheque/ajoutcommentaire.html", {"form" : lform})
 
 
 def allcommentaire(request):
@@ -301,13 +326,13 @@ def allcommentaire(request):
 
 def affichecommentaire(request, id):
     commentaire = models.Commentaire.objects.get(pk=id)
-    return render(request, "ludotheque/commentaire/affichecommentaire.html", {"commentaire" : commentaire})
+    return render(request, "ludotheque/affichecommentaire.html", {"commentaire" : commentaire})
 
 
 def updatecommentaire(request, id):
     commentaire = models.Commentaire.objects.get(pk=id)
     lform = CommentaireForm(commentaire.dico())
-    return render(request, "ludotheque/commentaire/updatecommentaire.html", {"form": lform, "id" : id})
+    return render(request, "ludotheque/updatecommentaire.html", {"form": lform, "id" : id})
 
 
 def traitementupdatecommentaire(request, id):
@@ -318,10 +343,58 @@ def traitementupdatecommentaire(request, id):
         commentaire.save()
         return HttpResponseRedirect("/ludotheque/main")
     else:
-        return render(request, "ludotheque/commentaire/updatecommentaire.html", {"form": lform, "id": id})
+        return render(request, "ludotheque/updatecommentaire.html", {"form": lform, "id": id})
 
 
 def deletecommentaire(request, id):
     commentaire = models.Commentaire.objects.get(pk=id)
     commentaire.delete()
     return HttpResponseRedirect("/ludotheque/main")
+
+
+def test(request, id):
+    jeu = models.Jeux.objects.get(pk=id)
+    id = jeu.id
+    buf = io.BytesIO()
+    c = canvas.Canvas(buf, pagesize=letter, bottomup=0)
+    textob = c.beginText()
+    textob.setTextOrigin(cm, cm)
+    textob.setFont("Helvetica", 12)
+
+    lines = [(jeu.id, jeu.titre)]
+
+    for line in lines:
+        textob.textLine(line)
+
+    c.drawText(textob)
+    c.save()
+    c.showPage()
+    buf.seek(0)
+
+    return FileResponse(buf, as_attachment=True, filename="test.pdf")
+
+
+"""def test(request, id):
+    jeu = models.Jeux.objects.get(pk=id)
+    buf = io.BytesIO()
+    c = canvas.Canvas(buf, pagesize=letter, bottomup=0)
+    textob = c.beginText()
+    textob.setTextOrigin(cm, cm)
+    textob.setFont("Helvetica", 12)
+
+    lines = []
+
+    for jeu in jeux:
+        lines.append((jeu.id, jeu.titre))
+
+    for line in lines:
+        textob.textLine(line)
+
+    c.drawText(textob)
+    c.save()
+    c.showPage()
+    buf.seek(0)
+
+    return FileResponse(buf, as_attachment=True, filename="test.pdf")"""
+
+
